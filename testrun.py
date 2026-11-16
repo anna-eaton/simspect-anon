@@ -1,0 +1,237 @@
+from __future__ import annotations
+import argparse
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+from simspect_paths import ROOT, RESULTS, resolve
+sys.path.insert(0, str(ROOT / "STAGE3_gem5"))
+from gem5_common import sample_keep
+import jobs_registry
+
+KIND_FALLBACK = "other_x"
+
+
+def load_jsonc(p: Path) -> dict:
+    txt = re.sub(r"/\*.*?\*/", "", p.read_text(), flags=re.S)
+    txt = re.sub(r"//[^\n]*", "", txt)
+    return json.loads(txt)
+
+
+def ready_stems(testset_model: Path, mode: str, sample_frac: float = 1.0) -> set:
+    asm = testset_model / mode / "asm"
+    ann = testset_model / mode / "ann"
+    if not asm.is_dir() or not ann.is_dir():
+        return set()
+    a = {p.stem for p in asm.glob("inst-*.s")}
+    n = {p.name[:-len(".ann.json")] for p in ann.glob("inst-*.ann.json")}
+    ready = a & n
+    if sample_frac < 1.0:
+        ready = {s for s in ready if sample_keep(s, sample_frac)}
+    return ready
+
+
+def stem_kind(ann_dir: Path, stem: str) -> str:
+    try:
+        d = json.loads((ann_dir / f"{stem}.ann.json").read_text())
+        return d.get("xmit", {}).get("kind") or KIND_FALLBACK
+    except Exception:
+        return KIND_FALLBACK
+
+
+def done_stems(mode_dir: Path) -> set:
+    done: set = set()
+    if not mode_dir.is_dir():
+        return done
+    for wr in mode_dir.glob("*/window-results.json"):
+        try:
+            done |= {r["name"] for r in json.loads(wr.read_text())}
+        except Exception:
+            pass
+    return done
+
+
+def merge_kind(kind_dir: Path, recs: list) -> tuple:
+    kind_dir.mkdir(parents=True, exist_ok=True)
+    f = kind_dir / "window-results.json"
+    existing = []
+    if f.exists():
+        try:
+            existing = json.loads(f.read_text())
+        except Exception:
+            existing = []
+    by_name = {r["name"]: r for r in existing}
+    for r in recs:
+        by_name[r["name"]] = r
+    merged = sorted(by_name.values(), key=lambda r: r["name"])
+    f.write_text(json.dumps(merged, indent=2))
+    hits = [r["name"] for r in merged if r.get("issued_in_window")]
+    (kind_dir / "window-hits.txt").write_text(
+        ("\n".join(hits) + "\n") if hits else "")
+    return len(merged), len(hits)
+
+
+def run_pass(cfg: dict, model: str, mode: str, results_base: Path,
+             max_new: int) -> int:
+    testset_dir   = cfg["paths"]["testset_dir"]
+    campaign      = results_base.name
+    testset_model = resolve(testset_dir) / model
+    src_asm = testset_model / mode / "asm"
+    src_ann = testset_model / mode / "ann"
+    mode_dir = results_base / mode
+    mode_dir.mkdir(parents=True, exist_ok=True)
+
+    sample_frac = float(cfg.get("gem5", {}).get("sample_fraction", 1.0))
+    new = sorted(ready_stems(testset_model, mode, sample_frac)
+                 - done_stems(mode_dir))
+    if not new:
+        return 0
+    batch = new[:max_new]
+
+    stage_rel = f"results/{campaign}/_stage_{mode}"
+    tmp_rel   = f"results/{campaign}/_tmp_{mode}"
+    stage_root = ROOT / stage_rel
+    tmp_root   = ROOT / tmp_rel
+    for d in (stage_root, tmp_root):
+        shutil.rmtree(d, ignore_errors=True)
+    s_asm = stage_root / model / mode / "asm"
+    s_ann = stage_root / model / mode / "ann"
+    s_asm.mkdir(parents=True, exist_ok=True)
+    s_ann.mkdir(parents=True, exist_ok=True)
+    for st in batch:
+        (s_asm / f"{st}.s").symlink_to(src_asm / f"{st}.s")
+        (s_ann / f"{st}.ann.json").symlink_to(src_ann / f"{st}.ann.json")
+
+    pass_cfg = json.loads(json.dumps(cfg))
+    pass_cfg["paths"]["testset_dir"]  = stage_rel
+    pass_cfg["paths"]["results_dir"]  = tmp_rel
+    pass_cfg["paths"]["results_name"] = "out"
+    pass_cfg["speculation"]["branch_modes"] = [mode]
+    pass_cfg_path = results_base / f"_pass_cfg_{mode}.json"
+    pass_cfg_path.write_text(json.dumps(pass_cfg, indent=2))
+
+    print(f"[testrun {time.strftime('%H:%M:%S')}] {model}/{mode}: "
+          f"{len(batch)} new (of {len(new)} pending) → gem5", flush=True)
+    env = None
+    if cfg.get("gem5", {}).get("fast_path", True) is True:
+        env = dict(os.environ, SIMSPECT_FAST_PATH_LOG=str(mode_dir / "fastpath.log"))
+    r = subprocess.run(
+        [sys.executable, "pipeline.py", "gem5", "--model", model,
+         "--config", str(pass_cfg_path.relative_to(ROOT)), "--force"],
+        cwd=str(ROOT), capture_output=True, text=True, env=env)
+    if r.returncode != 0:
+        print(f"[testrun] pipeline gem5 FAILED ({model}/{mode}):\n"
+              f"{r.stdout[-1500:]}\n{r.stderr[-1500:]}", flush=True)
+        return 0
+
+    out_rs = tmp_root / "out" / mode
+    wr = out_rs / "window-results.json"
+    recs = json.loads(wr.read_text()) if wr.exists() else []
+
+    by_kind: dict = {}
+    for rec in recs:
+        by_kind.setdefault(stem_kind(src_ann, rec["name"]), []).append(rec)
+    summary = []
+    for k in sorted(by_kind):
+        n_tot, n_hit = merge_kind(mode_dir / k, by_kind[k])
+        summary.append(f"{k} {n_hit}/{n_tot}")
+
+    raw = out_rs / "sweep" / "raw_results"
+    if raw.is_dir():
+        dst = mode_dir / "_sweep_raw"
+        dst.mkdir(parents=True, exist_ok=True)
+        ts = time.strftime("%Y%m%d%H%M%S")
+        for rf in raw.glob("*.json"):
+            shutil.move(str(rf), str(dst / f"{ts}_{rf.name}"))
+
+    shutil.rmtree(stage_root, ignore_errors=True)
+    shutil.rmtree(tmp_root,   ignore_errors=True)
+    pass_cfg_path.unlink(missing_ok=True)
+    print(f"[testrun {time.strftime('%H:%M:%S')}] {model}/{mode}: "
+          f"+{len(recs)} → " + " | ".join(summary), flush=True)
+    return len(batch)
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--config", required=True)
+    ap.add_argument("--model",  required=True)
+    ap.add_argument("--interval", type=int, default=300)
+    ap.add_argument("--max-new",  type=int, default=2000)
+    ap.add_argument("--resume", action="store_true",
+                    help="reuse results/<name>__latest instead of a new campaign")
+    ap.add_argument("--once", action="store_true")
+    a = ap.parse_args()
+
+    cfg_path = ROOT / a.config if not os.path.isabs(a.config) else Path(a.config)
+    cfg = load_jsonc(cfg_path)
+    modes = cfg["speculation"]["branch_modes"]
+    expected = int(cfg.get("alloy", {}).get("max_instances", 0))
+    testset_model = resolve(cfg["paths"]["testset_dir"]) / a.model
+    results_name = cfg["paths"]["results_name"]
+
+    latest = RESULTS / f"{results_name}__latest"
+    if a.resume and latest.exists():
+        results_base = latest.resolve()
+        print(f"[testrun] resuming campaign {results_base}", flush=True)
+    else:
+        ts = time.strftime("%Y%m%d_%H%M%S")
+        results_base = RESULTS / f"{results_name}__{ts}"
+        results_base.mkdir(parents=True, exist_ok=True)
+        if latest.is_symlink() or latest.exists():
+            latest.unlink()
+        latest.symlink_to(results_base.name)
+        (results_base / "manifest.json").write_text(json.dumps({
+            "started_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "model": a.model,
+            "results_name": results_name,
+            "gem5_binary": cfg.get("gem5", {}).get("binary"),
+            "gem5_extra_args": cfg.get("gem5", {}).get("extra_args"),
+            "cache_setup": cfg.get("gem5", {}).get("cache_setup", "warm"),
+            "cache_setup_seed": cfg.get("gem5", {}).get("cache_setup_seed"),
+            "cache_setup_fill_bytes": cfg.get("gem5", {}).get("cache_setup_fill_bytes"),
+            "config": str(cfg_path),
+        }, indent=2))
+        if cfg.get("gem5", {}).get("fast_path", True) is True:
+            m = json.loads((results_base / "manifest.json").read_text())
+            m["gem5_fast_path"] = True
+            (results_base / "manifest.json").write_text(json.dumps(m, indent=2))
+        print(f"[testrun] campaign {results_base}", flush=True)
+    if cfg.get("gem5", {}).get("fast_path", True) is True:
+        print("[testrun] fast path ON (gem5.fast_path: true): hook-scan cache + routed trace read in the "
+              "checkers; per-test path in <campaign>/<mode>/fastpath.log", flush=True)
+
+    job_id = jobs_registry.record_start(
+        "sweep", a.model, a.config, results_name=results_name,
+        extra={"campaign": results_base.name,
+               "gem5_binary": cfg.get("gem5", {}).get("binary")})
+    try:
+        while True:
+            progressed = 0
+            for m in modes:
+                progressed += run_pass(cfg, a.model, m, results_base, a.max_new)
+            if a.once:
+                break
+            complete = expected > 0 and all(
+                len(list((testset_model / m / "asm").glob("inst-*.s"))) >= expected
+                for m in modes)
+            if complete and progressed == 0:
+                print(f"[testrun {time.strftime('%H:%M:%S')}] testset complete and "
+                      f"no new tests — done.", flush=True)
+                break
+            time.sleep(a.interval)
+    except BaseException as e:
+        jobs_registry.record_end(job_id, "failed", extra={"error": str(e)})
+        raise
+    jobs_registry.record_end(job_id, "done")
+
+
+if __name__ == "__main__":
+    main()

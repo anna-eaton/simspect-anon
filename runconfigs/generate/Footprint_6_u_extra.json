@@ -1,0 +1,37 @@
+{
+ "paths": {
+  "testset_dir": "@WORK@/testsets"
+ },
+ "twostage_lp": {
+  "family": "Footprint_6_u",
+  "core_model": "Footprint_6_u_core_ri",
+  "lp_model": "Footprint_6_u_lpP",
+  "corpus": "Footprint_6_u_extra_A",
+  "stage2_config": "runconfigs/stage2_A.json",
+  "stage1": {
+   "reuse_cores": [
+    "@WORK@/ws/Footprint_6_u_main_A/stage1/out/Footprint_6_u_core_ri/k2/stage1_xml",
+    "@WORK@/ws/Footprint_6_u_main_A/stage1/out/Footprint_6_u_core_ri/k3/stage1_xml"
+   ],
+   "reuse_sha256": "b9c595008935cadefc04d946e00b07b135cf5b3d00579d9a9462bbb43c61569e"
+  },
+  "stage15": {
+   "slots": 28,
+   "job_timeout": 600,
+   "budget_s": 9000,
+   "cap": 100,
+   "walk_p": 0.05,
+   "shuffle_seed": 20261115,
+   "spread": 2,
+   "dedup_level": "seed",
+   "xmx": "4g",
+   "target_distinct": 60000
+  },
+  "stream": {
+   "interval": 120,
+   "jobs": 24,
+   "min_batch": 200,
+   "max_batch": 1500
+  }
+ }
+}

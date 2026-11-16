@@ -1,0 +1,14 @@
+{
+ "corpus": "Footprint_6_u_extra_A",
+ "programs": 62052,
+ "tests": 124104,
+ "stage15_alloy_job_wall_s_sum_loaded": 210855.1,
+ "stage2_cpu_s": 46726.8,
+ "retime": {
+  "jobs": 16,
+  "seed": 20261115,
+  "solver_wall_s_idle": 1568,
+  "solver_wall_s_loaded": 4800,
+  "instances_per_job": 100
+ }
+}

@@ -1,0 +1,59 @@
+{
+ "paths": {
+  "stage2_dir": "STAGE2_compilation",
+  "stage3_dir": "STAGE3_gem5",
+  "testset_dir": "@WORK@/testsets",
+  "results_dir": "@WORK@/results",
+  "results_name": "E3_STT_6_u_A",
+  "model": "STT_6_u_A"
+ },
+ "speculation": {
+  "control_flow": true,
+  "data_flow": false,
+  "branch_modes": [
+   "mispredict_not_taken",
+   "mispredict_taken"
+  ]
+ },
+ "gem5": {
+  "binary": "@GEM5@/stt-master/build/X86/gem5.opt",
+  "config_script": "@GEM5@/stt-master/configs/example/se.py",
+  "branch_ann_enable": true,
+  "cpu_type": "DerivO3CPU",
+  "scheme": 2,
+  "caches": true,
+  "jobs": 8,
+  "debug_flags": [
+   "O3PipeView",
+   "LSQUnit"
+  ],
+  "debug_file": "pipeview.txt",
+  "fnc_commit_stall_cycles": 0,
+  "cache_setup": "random_all",
+  "cache_setup_fill_bytes": "64kB",
+  "fast_path": true
+ },
+ "sweep": {
+  "enabled": true,
+  "points": [
+   0
+  ],
+  "unresolved_stall_cycles": 5000,
+  "timing_grid": {
+   "unresolved": [
+    2500,
+    5000,
+    10000
+   ],
+   "resolved": [
+    0,
+    500,
+    2500
+   ],
+   "seed": "tgrid-v1"
+  }
+ },
+ "pipeline": {
+  "keep_tmp": false
+ }
+}

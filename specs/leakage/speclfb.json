@@ -1,0 +1,39 @@
+{
+ "schema": "simspect.transmission_criterion/v1",
+ "defense": "SpecLFB",
+ "observation": {
+  "structures": [
+   "L1D",
+   "L2"
+  ]
+ },
+ "actors": {
+  "default": "spec",
+  "modes": {
+   "spec": {
+    "impl": "squashed_after_lc"
+   }
+  }
+ },
+ "window": {
+  "footprint": {
+   "branches_unresolved": true
+  }
+ },
+ "terms": {
+  "footprint": {
+   "kinds": [
+    "fill",
+    "evict"
+   ],
+   "key": {
+    "evict": "victim",
+    "default": "line"
+   }
+  }
+ },
+ "leak": {
+  "form": "exists",
+  "term": "footprint"
+ }
+}

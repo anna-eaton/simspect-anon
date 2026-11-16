@@ -1,0 +1,36 @@
+{
+ "paths": {
+  "testset_dir": "@WORK@/testsets"
+ },
+ "twostage_lp": {
+  "family": "Footprint_6_u",
+  "core_model": "Footprint_6_u_core_ri",
+  "lp_model": "Footprint_6_u_lpP",
+  "corpus": "Footprint_6_u_main_A",
+  "stage2_config": "runconfigs/stage2_A.json",
+  "stage1": {
+   "jobs": 8,
+   "cap": 200000,
+   "timeout_s": 10800,
+   "xmx": "8g",
+   "wait_k": 6
+  },
+  "stage15": {
+   "slots": 40,
+   "job_timeout": 300,
+   "budget_s": 5400,
+   "cap": 25,
+   "walk_p": 0.05,
+   "shuffle_seed": 20261110,
+   "spread": 2,
+   "dedup_level": "seed",
+   "xmx": "4g"
+  },
+  "stream": {
+   "interval": 120,
+   "jobs": 24,
+   "min_batch": 50,
+   "max_batch": 150
+  }
+ }
+}

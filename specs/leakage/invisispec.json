@@ -1,0 +1,51 @@
+{
+ "schema": "simspect.transmission_criterion/v1",
+ "defense": "InvisiSpec",
+ "observation": {
+  "structures": [
+   "L1D",
+   "L2",
+   "DIR",
+   "DTLB"
+  ]
+ },
+ "actors": {
+  "default": "spec",
+  "select_by_scheme": {
+   "SpectreSafeInvisibleSpec": "spec",
+   "FuturisticSafeInvisibleSpec": "futuristic"
+  },
+  "modes": {
+   "spec": {
+    "impl": "squashed_after_lc"
+   },
+   "futuristic": {
+    "impl": "before_visibility_point"
+   }
+  }
+ },
+ "window": {
+  "footprint": {
+   "branches_unresolved": true
+  }
+ },
+ "terms": {
+  "footprint": {
+   "kinds": [
+    "fill",
+    "evict",
+    "inv",
+    "coh",
+    "repl_touch"
+   ],
+   "key": {
+    "evict": "victim",
+    "default": "line"
+   }
+  }
+ },
+ "leak": {
+  "form": "exists",
+  "term": "footprint"
+ }
+}

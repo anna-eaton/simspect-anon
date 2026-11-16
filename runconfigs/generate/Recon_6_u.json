@@ -1,0 +1,37 @@
+{
+ "paths": {
+  "testset_dir": "@WORK@/testsets"
+ },
+ "twostage_lp": {
+  "family": "Recon_6_u",
+  "core_model": "Recon_6_u_core_ri",
+  "lp_model": "Recon_6_u_lpP",
+  "corpus": "Recon_6_u_A",
+  "stage2_config": "runconfigs/stage2_A.json",
+  "stage1": {
+   "jobs": 8,
+   "cap": 200000,
+   "timeout_s": 10800,
+   "xmx": "8g",
+   "wait_k": 6
+  },
+  "stage15": {
+   "slots": 28,
+   "job_timeout": 600,
+   "budget_s": 9000,
+   "cap": 100,
+   "walk_p": 0.05,
+   "shuffle_seed": 20261116,
+   "spread": 2,
+   "dedup_level": "seed",
+   "xmx": "4g",
+   "target_distinct": 60000
+  },
+  "stream": {
+   "interval": 120,
+   "jobs": 24,
+   "min_batch": 200,
+   "max_batch": 1500
+  }
+ }
+}

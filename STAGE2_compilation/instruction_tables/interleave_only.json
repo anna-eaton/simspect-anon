@@ -1,0 +1,1133 @@
+{
+ "entries": [
+  {
+   "name": "add",
+   "class": "int_alu",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Aaddq $2, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "legacy": "FV2_FILLER_OPS.add",
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "ADD_R_R:add",
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "xor",
+   "class": "int_alu",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Axorq $2, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "legacy": "FV2_FILLER_OPS.xor",
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "and",
+   "class": "int_alu",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Aandq $2, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "legacy": "FV2_FILLER_OPS.and",
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "imul",
+   "class": "mul",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Aimulq $2, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "legacy": "FV2_FILLER_OPS.imul",
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "lea",
+   "class": "lea",
+   "form": "rr",
+   "asm": "leaq ($1,$2), $0",
+   "roles": {
+    "$0": "out",
+    "$1": "base",
+    "$2": "index"
+   },
+   "legacy": "FV2_FILLER_OPS.lea",
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "shl",
+   "class": "shift",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Ashlq $$3, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "legacy": "FV2_FILLER_OPS.shl",
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "jmp",
+   "class": "control_direct",
+   "form": "none",
+   "asm": "jmp .Lsimspect_jf${:uid}\\0A.Lsimspect_jf${:uid}:",
+   "roles": {},
+   "legacy": "FV2_FILLER_JMP (parsexml.py:2528-2533)",
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "sub",
+   "class": "int_alu",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Asubq $2, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov",
+    "SUB_R_R:sub"
+   ]
+  },
+  {
+   "name": "or",
+   "class": "int_alu",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Aorq $2, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "adc",
+   "class": "int_alu",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Aaddq $2, $0\\0Aadcq $1, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "ADC_R_R:adc",
+    "ADD_R_R:add",
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "sbb",
+   "class": "int_alu",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Asubq $2, $0\\0Asbbq $1, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov",
+    "SBB_R_R:sbb",
+    "SUB_R_R:sub"
+   ]
+  },
+  {
+   "name": "neg",
+   "class": "int_alu",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Anegq $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov",
+    "NEG_R:sub"
+   ]
+  },
+  {
+   "name": "not",
+   "class": "int_alu",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Anotq $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "inc",
+   "class": "int_alu",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Aincq $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "INC_R:addi",
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "dec",
+   "class": "int_alu",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Adecq $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "DEC_R:subi",
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "add_imm",
+   "class": "int_alu",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Aaddq $$4097, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "ADD_R_I:add",
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "add32",
+   "class": "int_alu",
+   "form": "rr",
+   "asm": "movl ${1:k}, ${0:k}\\0Aaddl ${2:k}, ${0:k}",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "ADD_R_R:add",
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "add8_merge",
+   "class": "partial_width",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Aaddb ${2:b}, ${0:b}",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in (low byte)"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "ADD_R_R:add",
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "mov16_merge",
+   "class": "partial_width",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Amovw ${2:w}, ${0:w}",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in (low word)"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "cmp_setz",
+   "class": "cmp_setcc",
+   "form": "rr",
+   "asm": "xorl ${0:k}, ${0:k}\\0Acmpq $2, $1\\0Asetz ${0:b}",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "cmp_setb",
+   "class": "cmp_setcc",
+   "form": "rr",
+   "asm": "xorl ${0:k}, ${0:k}\\0Acmpq $2, $1\\0Asetb ${0:b}",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "cmp_setl",
+   "class": "cmp_setcc",
+   "form": "rr",
+   "asm": "xorl ${0:k}, ${0:k}\\0Acmpq $2, $1\\0Asetl ${0:b}",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "test_setnz",
+   "class": "cmp_setcc",
+   "form": "rr",
+   "asm": "xorl ${0:k}, ${0:k}\\0Atestq $2, $1\\0Asetnz ${0:b}",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "cmovb_min",
+   "class": "cmov",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Acmpq $1, $2\\0Acmovbq $2, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "CMOVB_R_R:mov",
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "cmovl_min",
+   "class": "cmov",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Acmpq $1, $2\\0Acmovlq $2, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "CMOVL_R_R:mov",
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "cmovz_test",
+   "class": "cmov",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Atestq $2, $2\\0Acmovzq $2, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "CMOVZ_R_R:mov",
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "shr",
+   "class": "shift",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Ashrq $$7, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "sar",
+   "class": "shift",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Asarq $$11, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "rol",
+   "class": "shift",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Arolq $$13, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "ror",
+   "class": "shift",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Arorq $$29, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "shld",
+   "class": "shift",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Ashldq $$5, $2, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "shrd",
+   "class": "shift",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Ashrdq $$9, $2, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "bt_setc",
+   "class": "bit",
+   "form": "rr",
+   "asm": "xorl ${0:k}, ${0:k}\\0Abtq $2, $1\\0Asetc ${0:b}",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "bit index"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "bts",
+   "class": "bit",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Abtsq $2, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "bit index"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "btr",
+   "class": "bit",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Abtrq $2, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "bit index"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "btc_imm",
+   "class": "bit",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Abtcq $$37, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "bsf",
+   "class": "bit",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Abtsq $$63, $0\\0Absfq $0, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "BSF_R_R:mov",
+    "BSF_R_R:subi",
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "bsr",
+   "class": "bit",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Aorq $$1, $0\\0Absrq $0, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "BSR_R_R:mov",
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "imul3_imm",
+   "class": "mul",
+   "form": "rr",
+   "asm": "imulq $$7, $1, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "imul32",
+   "class": "mul",
+   "form": "rr",
+   "asm": "movl ${1:k}, ${0:k}\\0Aimull ${2:k}, ${0:k}",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "mov",
+   "class": "move",
+   "form": "rr",
+   "asm": "movq $1, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "movzbl",
+   "class": "extend",
+   "form": "rr",
+   "asm": "movzbl ${1:b}, ${0:k}",
+   "roles": {
+    "$0": "out",
+    "$1": "in (low byte)"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOVZX_B_R_R:mov"
+   ]
+  },
+  {
+   "name": "movzwl",
+   "class": "extend",
+   "form": "rr",
+   "asm": "movzwl ${1:w}, ${0:k}",
+   "roles": {
+    "$0": "out",
+    "$1": "in (low word)"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "movsbq",
+   "class": "extend",
+   "form": "rr",
+   "asm": "movsbq ${1:b}, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in (low byte)"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOVSX_B_R_R:mov"
+   ]
+  },
+  {
+   "name": "movswq",
+   "class": "extend",
+   "form": "rr",
+   "asm": "movswq ${1:w}, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in (low word)"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "movslq",
+   "class": "extend",
+   "form": "rr",
+   "asm": "movslq ${1:k}, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in (low dword)"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "bswap",
+   "class": "move",
+   "form": "rr",
+   "asm": "movq $1, $0\\0Abswapq $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "bswap32",
+   "class": "move",
+   "form": "rr",
+   "asm": "movl ${1:k}, ${0:k}\\0Abswapl ${0:k}",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": true,
+   "spt_bwd_uops": [
+    "MOV_R_R:mov"
+   ]
+  },
+  {
+   "name": "mov_imm64",
+   "class": "constant",
+   "form": "rr",
+   "asm": "movabsq $$0x123456789abcdef, $0",
+   "roles": {
+    "$0": "out"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "mov_imm32",
+   "class": "constant",
+   "form": "rr",
+   "asm": "movl $$12345, ${0:k}",
+   "roles": {
+    "$0": "out"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "zero_xor",
+   "class": "constant",
+   "form": "rr",
+   "asm": "xorl ${0:k}, ${0:k}",
+   "roles": {
+    "$0": "out"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "lea_scaled",
+   "class": "lea",
+   "form": "rr",
+   "asm": "leaq ($1,$2,8), $0",
+   "roles": {
+    "$0": "out",
+    "$1": "base",
+    "$2": "index"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "lea_disp",
+   "class": "lea",
+   "form": "rr",
+   "asm": "leaq 64($1), $0",
+   "roles": {
+    "$0": "out",
+    "$1": "base"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "lea_full",
+   "class": "lea",
+   "form": "rr",
+   "asm": "leaq -24($1,$2,4), $0",
+   "roles": {
+    "$0": "out",
+    "$1": "base",
+    "$2": "index"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "nop1",
+   "class": "nop",
+   "form": "none",
+   "asm": "nop",
+   "roles": {},
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "nop_long",
+   "class": "nop",
+   "form": "none",
+   "asm": "nopl 0(%rax,%rax,1)",
+   "roles": {},
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "nopw_long",
+   "class": "nop",
+   "form": "none",
+   "asm": "nopw 0(%rax,%rax,1)",
+   "roles": {},
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "sse_movq_rt",
+   "class": "sse_move",
+   "form": "rr",
+   "clobbers": [
+    "xmm15"
+   ],
+   "asm": "movq $1, %xmm15\\0Amovq %xmm15, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "sse_paddq",
+   "class": "sse_int",
+   "form": "rr",
+   "clobbers": [
+    "xmm14",
+    "xmm15"
+   ],
+   "asm": "movq $1, %xmm14\\0Amovq $2, %xmm15\\0Apaddq %xmm15, %xmm14\\0Amovq %xmm14, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "sse_pxor",
+   "class": "sse_int",
+   "form": "rr",
+   "clobbers": [
+    "xmm14",
+    "xmm15"
+   ],
+   "asm": "movq $1, %xmm14\\0Amovq $2, %xmm15\\0Apxor %xmm15, %xmm14\\0Amovq %xmm14, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "sse_pand",
+   "class": "sse_int",
+   "form": "rr",
+   "clobbers": [
+    "xmm14",
+    "xmm15"
+   ],
+   "asm": "movq $1, %xmm14\\0Amovq $2, %xmm15\\0Apand %xmm15, %xmm14\\0Amovq %xmm14, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "sse_pshufd",
+   "class": "sse_int",
+   "form": "rr",
+   "clobbers": [
+    "xmm14",
+    "xmm15"
+   ],
+   "asm": "movq $1, %xmm15\\0Apshufd $$0x4e, %xmm15, %xmm14\\0Amovq %xmm14, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "sse_addsd",
+   "class": "sse_fp",
+   "form": "rr",
+   "clobbers": [
+    "xmm14",
+    "xmm15"
+   ],
+   "asm": "movq $1, %xmm14\\0Amovq $2, %xmm15\\0Aaddsd %xmm15, %xmm14\\0Amovq %xmm14, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in (as double)",
+    "$2": "in (as double)"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "sse_mulsd",
+   "class": "sse_fp",
+   "form": "rr",
+   "clobbers": [
+    "xmm14",
+    "xmm15"
+   ],
+   "asm": "movq $1, %xmm14\\0Amovq $2, %xmm15\\0Amulsd %xmm15, %xmm14\\0Amovq %xmm14, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "sse_divsd",
+   "class": "sse_fp",
+   "form": "rr",
+   "clobbers": [
+    "xmm14",
+    "xmm15"
+   ],
+   "asm": "movq $1, %xmm14\\0Amovq $2, %xmm15\\0Adivsd %xmm15, %xmm14\\0Amovq %xmm14, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "sse_sqrtsd",
+   "class": "sse_fp",
+   "form": "rr",
+   "clobbers": [
+    "xmm14",
+    "xmm15"
+   ],
+   "asm": "movq $1, %xmm15\\0Asqrtsd %xmm15, %xmm14\\0Amovq %xmm14, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "sse_cvtsi2sd",
+   "class": "sse_cvt",
+   "form": "rr",
+   "clobbers": [
+    "xmm15"
+   ],
+   "asm": "cvtsi2sdq $1, %xmm15\\0Amovq %xmm15, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "sse_cvttsd2si",
+   "class": "sse_cvt",
+   "form": "rr",
+   "clobbers": [
+    "xmm15"
+   ],
+   "asm": "movq $1, %xmm15\\0Acvttsd2siq %xmm15, $0",
+   "roles": {
+    "$0": "out",
+    "$1": "in (as double)"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  },
+  {
+   "name": "sse_ucomisd_setb",
+   "class": "sse_fp",
+   "form": "rr",
+   "clobbers": [
+    "xmm14",
+    "xmm15"
+   ],
+   "asm": "movq $1, %xmm14\\0Amovq $2, %xmm15\\0Axorl ${0:k}, ${0:k}\\0Aucomisd %xmm15, %xmm14\\0Asetb ${0:b}",
+   "roles": {
+    "$0": "out",
+    "$1": "in",
+    "$2": "in"
+   },
+   "weight": 1,
+   "status": "ok",
+   "spt_bwd_invertible": false,
+   "spt_bwd_uops": []
+  }
+ ]
+}

@@ -1,0 +1,81 @@
+{
+ "schema": "simspect.transmission_criterion/v1",
+ "defense": "CleanupSpec",
+ "observation": {
+  "structures": [
+   "L1D",
+   "L2"
+  ]
+ },
+ "actors": {
+  "default": "spec",
+  "modes": {
+   "spec": {
+    "impl": "squashed_after_lc"
+   }
+  }
+ },
+ "window": {
+  "footprint": {
+   "branches_unresolved": true
+  }
+ },
+ "terms": {
+  "installed": {
+   "kinds": [
+    "fill"
+   ],
+   "key": "line"
+  },
+  "evicted": {
+   "kinds": [
+    "evict"
+   ],
+   "key": "victim"
+  },
+  "invalidated": {
+   "kinds": [
+    "cleanup_inv"
+   ],
+   "key": "line"
+  },
+  "restored": {
+   "kinds": [
+    "cleanup_restore"
+   ],
+   "key": "line"
+  },
+  "reported_not_undo": {
+   "kinds": [
+    "cleanup_skip",
+    "cleanup_drop"
+   ]
+  }
+ },
+ "leak": {
+  "form": "per_line_balance"
+ },
+ "undo_obligations": {
+  "L1D": [
+   "install",
+   "victim"
+  ],
+  "L2": [
+   "install"
+  ]
+ },
+ "ownership": {
+  "kinds": [
+   "hit"
+  ],
+  "claims": {
+   "L1D": [
+    "L1D",
+    "L2"
+   ],
+   "L2": [
+    "L2"
+   ]
+  }
+ }
+}

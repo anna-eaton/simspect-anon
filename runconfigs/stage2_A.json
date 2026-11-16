@@ -1,0 +1,102 @@
+{
+ "paths": {
+  "stage2_dir": "STAGE2_compilation",
+  "instruction_tables": "STAGE2_compilation/instruction_tables/fv4_vocab.json",
+  "testset_dir": "@WORK@/testsets",
+  "results_dir": "@WORK@/results",
+  "results_name": "stage2_A"
+ },
+ "speculation": {
+  "branch_modes": [
+   "mispredict_not_taken",
+   "mispredict_taken"
+  ]
+ },
+ "gem5": {
+  "jobs": 5
+ },
+ "interleave": {
+  "enabled": false
+ },
+ "reg_naming": {
+  "mode": "random",
+  "seed": 0
+ },
+ "fanout_v2": {
+  "enabled": true,
+  "vocab_rj": {
+   "rmw": true,
+   "jmp": true
+  },
+  "pre_window_reads": true,
+  "splice": {
+   "enabled": true,
+   "p_xmit": 0.75,
+   "p_other": 0.25,
+   "ops": [
+    "add0",
+    "or0",
+    "xor0",
+    "and_m1",
+    "imul1",
+    "lea0",
+    "not2",
+    "neg2",
+    "rol_ror",
+    "add_sub",
+    "xor2",
+    "bswap2"
+   ]
+  },
+  "fillers": {
+   "enabled": true,
+   "count": [
+    1,
+    3
+   ],
+   "ops": [
+    "add",
+    "xor",
+    "and",
+    "imul",
+    "lea",
+    "shl"
+   ]
+  },
+  "interleave_only": {
+   "enabled": true,
+   "table": "STAGE2_compilation/instruction_tables/interleave_only.json"
+  }
+ },
+ "branch_cond": {
+  "from_alloy": true
+ },
+ "fpr": {
+  "enabled": true,
+  "loads": "consumed",
+  "xmm_regs": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "forms": [
+   "route",
+   "direct",
+   "route_alu",
+   "direct_alu"
+  ]
+ }
+}

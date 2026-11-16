@@ -1,0 +1,77 @@
+{
+ "row": "E2w_STT_6_u_A",
+ "buckets": {
+  "mispredict_not_taken/br_x/plain": {
+   "tests": 6170,
+   "raw": 2735,
+   "gated": 2735,
+   "buckets": {
+    "SSE-load producer": 2632,
+    "oldest-taint candidate (br_x twin hit)": 13,
+    "SSE-load producer (static only)": 85,
+    "SSE-load producer via FP elsewhere (twin held; idiv divisor case)": 5
+   }
+  },
+  "mispredict_not_taken/ld/plain": {
+   "tests": 6251,
+   "raw": 3540,
+   "gated": 3540,
+   "buckets": {
+    "SSE-load producer": 2292,
+    "isTainted=0 (reveal not checked)": 540,
+    "SSE-load producer (static only)": 83,
+    "STLF bypass": 598,
+    "STLF bypass (main-run evidence, no twin)": 16,
+    "SSE-load producer via FP elsewhere (twin held; idiv divisor case)": 11
+   }
+  },
+  "mispredict_not_taken/ld/rmw": {
+   "tests": 2763,
+   "raw": 2721,
+   "gated": 2660,
+   "buckets": {
+    "SSE-load producer (static only, RMW)": 1350,
+    "check_ld RMW artifact (scores the RMW's leading limm micro-op; delay unit holds the load)": 1074,
+    "STLF bypass (main-run evidence, no twin, RMW)": 235,
+    "disq_not_obtained(never_executed)": 61,
+    "untainted transmitter, no twin (SSE-load producer candidate, RMW)": 1
+   }
+  },
+  "mispredict_taken/br_x/plain": {
+   "tests": 6170,
+   "raw": 2772,
+   "gated": 2772,
+   "buckets": {
+    "SSE-load producer": 2670,
+    "oldest-taint candidate (br_x twin hit)": 11,
+    "SSE-load producer (static only)": 86,
+    "SSE-load producer via FP elsewhere (twin held; idiv divisor case)": 5
+   }
+  },
+  "mispredict_taken/ld/plain": {
+   "tests": 6251,
+   "raw": 3540,
+   "gated": 3540,
+   "buckets": {
+    "SSE-load producer": 2297,
+    "isTainted=0 (reveal not checked)": 535,
+    "SSE-load producer (static only)": 84,
+    "STLF bypass": 597,
+    "STLF bypass (main-run evidence, no twin)": 15,
+    "SSE-load producer via FP elsewhere (twin held; idiv divisor case)": 12
+   }
+  },
+  "mispredict_taken/ld/rmw": {
+   "tests": 2763,
+   "raw": 2721,
+   "gated": 2660,
+   "buckets": {
+    "SSE-load producer (static only, RMW)": 1361,
+    "disq_not_obtained(never_executed)": 61,
+    "check_ld RMW artifact (scores the RMW's leading limm micro-op; delay unit holds the load)": 1069,
+    "STLF bypass (main-run evidence, no twin, RMW)": 229,
+    "untainted transmitter, no twin (SSE-load producer candidate, RMW)": 1
+   }
+  }
+ }
+}

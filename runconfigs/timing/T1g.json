@@ -1,0 +1,78 @@
+{
+ "paths": {
+  "stage2_dir": "STAGE2_compilation",
+  "stage3_dir": "STAGE3_gem5",
+  "testset_dir": "@WORK@/testsets",
+  "results_dir": "@WORK@/results",
+  "results_name": "T1g_timing",
+  "model": "Footprint_6_u"
+ },
+ "speculation": {
+  "control_flow": true,
+  "data_flow": false,
+  "branch_modes": [
+   "mispredict_not_taken",
+   "mispredict_taken"
+  ]
+ },
+ "gem5": {
+  "binary": "@GEM5@/amulet-gem5-InvisiSpec_AE-v1.1/build/X86_MESI_Two_Level/gem5.opt",
+  "config_script": "@GEM5@/amulet-gem5-InvisiSpec_AE-v1.1/configs/example/se.py",
+  "branch_ann_enable": true,
+  "cpu_type": "DerivO3CPU",
+  "scheme": 2,
+  "jobs": 6,
+  "debug_flags": [
+   "O3PipeView"
+  ],
+  "debug_file": "pipeview.txt",
+  "checker": "check_footprint.py",
+  "criterion": "specs/leakage/invisispec.json",
+  "fnc_commit_stall_cycles": 0,
+  "cache_setup": "random_all",
+  "extra_args": [
+   "--num-cpu=1",
+   "--cpu-clock=2GHz",
+   "--sys-clock=2GHz",
+   "--ruby",
+   "--L1_TBEs=256",
+   "--L2_TBEs=256",
+   "--DC_TBEs=256",
+   "--l1d_size=32kB",
+   "--l1d_assoc=8",
+   "--l1i_size=32kB",
+   "--l1i_assoc=8",
+   "--cacheline_size=64",
+   "--l2_size=2MB",
+   "--l2_assoc=8",
+   "--DTB_entries=64",
+   "--needsTSO=0",
+   "--scheme=FuturisticSafeInvisibleSpec",
+   "--access-backing-store"
+  ],
+  "fast_path": true
+ },
+ "sweep": {
+  "enabled": true,
+  "points": [
+   0
+  ],
+  "unresolved_stall_cycles": 5000,
+  "timing_grid": {
+   "unresolved": [
+    2500,
+    5000,
+    10000
+   ],
+   "resolved": [
+    0,
+    500,
+    2500
+   ],
+   "seed": "tgrid-v1"
+  }
+ },
+ "pipeline": {
+  "keep_tmp": false
+ }
+}

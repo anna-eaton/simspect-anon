@@ -1,0 +1,32 @@
+{"event": "spawn", "t": 1794808383.912602, "worker": 1, "key": "check_footprint.py", "startup_cpu_s": 0.0541}
+{"event": "spawn", "t": 1794808383.9163244, "worker": 5, "key": "check_footprint.py", "startup_cpu_s": 0.0555}
+{"event": "spawn", "t": 1794808383.9182959, "worker": 3, "key": "check_footprint.py", "startup_cpu_s": 0.056}
+{"event": "spawn", "t": 1794808383.919691, "worker": 2, "key": "check_footprint.py", "startup_cpu_s": 0.0536}
+{"event": "spawn", "t": 1794808383.9290886, "worker": 7, "key": "check_footprint.py", "startup_cpu_s": 0.0553}
+{"event": "spawn", "t": 1794808383.9353232, "worker": 4, "key": "check_footprint.py", "startup_cpu_s": 0.0566}
+{"event": "spawn", "t": 1794808383.9389777, "worker": 10, "key": "check_footprint.py", "startup_cpu_s": 0.0544}
+{"event": "spawn", "t": 1794808383.9406881, "worker": 9, "key": "check_footprint.py", "startup_cpu_s": 0.0533}
+{"event": "spawn", "t": 1794808383.9485266, "worker": 8, "key": "check_footprint.py", "startup_cpu_s": 0.0568}
+{"event": "spawn", "t": 1794808383.9492643, "worker": 11, "key": "check_footprint.py", "startup_cpu_s": 0.0544}
+{"event": "spawn", "t": 1794808383.9498248, "worker": 12, "key": "check_footprint.py", "startup_cpu_s": 0.0495}
+{"event": "spawn", "t": 1794808383.9594429, "worker": 6, "key": "check_footprint.py", "startup_cpu_s": 0.0568}
+{"event": "spawn", "t": 1794808383.96246, "worker": 14, "key": "check_footprint.py", "startup_cpu_s": 0.0548}
+{"event": "spawn", "t": 1794808383.9673617, "worker": 13, "key": "check_footprint.py", "startup_cpu_s": 0.0564}
+{"event": "spawn", "t": 1794808383.9690142, "worker": 15, "key": "check_footprint.py", "startup_cpu_s": 0.0549}
+{"event": "spawn", "t": 1794808383.9789002, "worker": 16, "key": "check_footprint.py", "startup_cpu_s": 0.0571}
+{"event": "exit", "t": 1794808486.6733139, "worker": 1, "key": "check_footprint.py", "tests": 69, "rc": 0}
+{"event": "exit", "t": 1794808486.7052495, "worker": 5, "key": "check_footprint.py", "tests": 66, "rc": 0}
+{"event": "exit", "t": 1794808486.7371716, "worker": 3, "key": "check_footprint.py", "tests": 64, "rc": 0}
+{"event": "exit", "t": 1794808486.7690427, "worker": 2, "key": "check_footprint.py", "tests": 59, "rc": 0}
+{"event": "exit", "t": 1794808486.8009202, "worker": 7, "key": "check_footprint.py", "tests": 61, "rc": 0}
+{"event": "exit", "t": 1794808486.8329554, "worker": 4, "key": "check_footprint.py", "tests": 67, "rc": 0}
+{"event": "exit", "t": 1794808486.8649602, "worker": 10, "key": "check_footprint.py", "tests": 63, "rc": 0}
+{"event": "exit", "t": 1794808486.896979, "worker": 9, "key": "check_footprint.py", "tests": 61, "rc": 0}
+{"event": "exit", "t": 1794808486.9289637, "worker": 8, "key": "check_footprint.py", "tests": 63, "rc": 0}
+{"event": "exit", "t": 1794808486.9608045, "worker": 11, "key": "check_footprint.py", "tests": 60, "rc": 0}
+{"event": "exit", "t": 1794808486.9928505, "worker": 12, "key": "check_footprint.py", "tests": 53, "rc": 0}
+{"event": "exit", "t": 1794808487.0249076, "worker": 6, "key": "check_footprint.py", "tests": 69, "rc": 0}
+{"event": "exit", "t": 1794808487.0568936, "worker": 14, "key": "check_footprint.py", "tests": 66, "rc": 0}
+{"event": "exit", "t": 1794808487.0889046, "worker": 13, "key": "check_footprint.py", "tests": 57, "rc": 0}
+{"event": "exit", "t": 1794808487.120936, "worker": 15, "key": "check_footprint.py", "tests": 61, "rc": 0}
+{"event": "exit", "t": 1794808487.1527877, "worker": 16, "key": "check_footprint.py", "tests": 61, "rc": 0}

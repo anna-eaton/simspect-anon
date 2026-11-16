@@ -1,0 +1,244 @@
+{
+ "kind_categories": {
+  "ld": "ld",
+  "str": "str",
+  "br_n": "br",
+  "br_x": "br",
+  "other_n": "other_n",
+  "other_x": "other_x",
+  "unknown": "other_n"
+ },
+ "instructions": {
+  "ld": [
+   {
+    "name": "load",
+    "llvm_op": "load volatile i64",
+    "uses": [
+     "inaddr",
+     "inmem",
+     "outreg"
+    ]
+   },
+   {
+    "name": "load_swapidx",
+    "base": "load",
+    "llvm_op": "movq (inline asm, base/index swapped)",
+    "uses": [
+     "inaddr",
+     "inmem",
+     "outreg"
+    ]
+   }
+  ],
+  "str": [
+   {
+    "name": "store",
+    "llvm_op": "store volatile i64",
+    "uses": [
+     "inreg0",
+     "inaddr",
+     "outmem"
+    ]
+   },
+   {
+    "name": "store_swapidx",
+    "base": "store",
+    "llvm_op": "movq (inline asm, base/index swapped)",
+    "uses": [
+     "inreg0",
+     "inaddr",
+     "outmem"
+    ]
+   },
+   {
+    "name": "store_imm",
+    "base": "store",
+    "llvm_op": "movq $0 (inline asm)",
+    "uses": [
+     "inaddr",
+     "outmem"
+    ]
+   }
+  ],
+  "br": [
+   {
+    "name": "br_uncond",
+    "llvm_op": "br label",
+    "uses": []
+   },
+   {
+    "name": "br_cond",
+    "llvm_op": "br i1",
+    "uses": [
+     "inreg0"
+    ]
+   },
+   {
+    "name": "br_bez",
+    "llvm_op": "testq+jz",
+    "uses": [
+     "inreg0"
+    ]
+   }
+  ],
+  "other_n": [
+   {
+    "name": "bitnot",
+    "llvm_op": "xor i64",
+    "uses": [
+     "inreg0",
+     "outreg"
+    ]
+   },
+   {
+    "name": "add",
+    "llvm_op": "add i64",
+    "uses": [
+     "inreg0",
+     "inreg1",
+     "outreg"
+    ]
+   },
+   {
+    "name": "inc",
+    "tags": [
+     "spt_bwd_invertible"
+    ],
+    "llvm_op": "incq (inline asm)",
+    "uses": [
+     "inreg0",
+     "outreg"
+    ]
+   },
+   {
+    "name": "cmov_rr",
+    "tags": [
+     "spt_bwd_invertible"
+    ],
+    "llvm_op": "cmovne (inline asm)",
+    "uses": [
+     "inreg0",
+     "inreg1",
+     "outreg"
+    ]
+   },
+   {
+    "name": "mov_rr",
+    "tags": [
+     "spt_bwd_invertible"
+    ],
+    "llvm_op": "movq (inline asm)",
+    "uses": [
+     "inreg0",
+     "outreg"
+    ]
+   },
+   {
+    "name": "neg",
+    "tags": [
+     "spt_bwd_invertible"
+    ],
+    "llvm_op": "negq (inline asm)",
+    "uses": [
+     "inreg0",
+     "outreg"
+    ]
+   },
+   {
+    "name": "shl3",
+    "llvm_op": "shlq $3 (inline asm)",
+    "uses": [
+     "inreg0",
+     "outreg"
+    ]
+   },
+   {
+    "name": "addq_rr",
+    "tags": [
+     "spt_bwd_invertible"
+    ],
+    "llvm_op": "addq (inline asm)",
+    "uses": [
+     "inreg0",
+     "inreg1",
+     "outreg"
+    ]
+   },
+   {
+    "name": "sub_rr",
+    "tags": [
+     "spt_bwd_invertible"
+    ],
+    "llvm_op": "subq (inline asm)",
+    "uses": [
+     "inreg0",
+     "inreg1",
+     "outreg"
+    ]
+   },
+   {
+    "name": "xor_rr",
+    "llvm_op": "xorq (inline asm)",
+    "uses": [
+     "inreg0",
+     "inreg1",
+     "outreg"
+    ]
+   },
+   {
+    "name": "and_rr",
+    "llvm_op": "andq (inline asm)",
+    "uses": [
+     "inreg0",
+     "inreg1",
+     "outreg"
+    ]
+   },
+   {
+    "name": "or_rr",
+    "llvm_op": "orq (inline asm)",
+    "uses": [
+     "inreg0",
+     "inreg1",
+     "outreg"
+    ]
+   },
+   {
+    "name": "lea_s8",
+    "llvm_op": "leaq (a,b,8) (inline asm)",
+    "uses": [
+     "inreg0",
+     "inreg1",
+     "outreg"
+    ]
+   }
+  ],
+  "other_x": [
+   {
+    "name": "zsm",
+    "llvm_op": "mul i64",
+    "uses": [
+     "inreg0",
+     "inreg1",
+     "outreg"
+    ]
+   },
+   {
+    "name": "div",
+    "llvm_op": "sdiv i64",
+    "uses": [
+     "inreg0",
+     "inreg1",
+     "outreg"
+    ]
+   }
+  ]
+ },
+ "branch_forms": {
+  "uniform": [
+   "test",
+   "cmp",
+   "jmp"
+  ]
+ }
+}
