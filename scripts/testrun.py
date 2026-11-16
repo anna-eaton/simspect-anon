@@ -121,7 +121,7 @@ def run_pass(cfg: dict, model: str, mode: str, results_base: Path,
     if cfg.get("gem5", {}).get("fast_path", True) is True:
         env = dict(os.environ, SIMSPECT_FAST_PATH_LOG=str(mode_dir / "fastpath.log"))
     r = subprocess.run(
-        [sys.executable, "pipeline.py", "gem5", "--model", model,
+        [sys.executable, "scripts/pipeline.py", "gem5", "--model", model,
          "--config", str(pass_cfg_path.relative_to(ROOT)), "--force"],
         cwd=str(ROOT), capture_output=True, text=True, env=env)
     if r.returncode != 0:

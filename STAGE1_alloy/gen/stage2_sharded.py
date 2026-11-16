@@ -10,6 +10,7 @@ from pathlib import Path
 
 ROOT = Path.cwd()
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "STAGE3_gem5"))
 import pipeline
 
@@ -76,7 +77,7 @@ def main():
                     L(f"  {mode}#{idx} {b}")
                 if rc:
                     L(f"  {mode}#{idx} STDERR\n{err}")
-        r = subprocess.run([sys.executable, "pipeline.py", "asm", "--model", a.model, "--config", a.config],
+        r = subprocess.run([sys.executable, "scripts/pipeline.py", "asm", "--model", a.model, "--config", a.config],
                            cwd=str(ROOT), capture_output=True, text=True)
         L(f"TIER {tier_name}: pipeline.py asm rc={r.returncode}\n{r.stdout[-3000:]}\n{r.stderr[-3000:]}")
         for mode in modes:

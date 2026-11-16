@@ -6,7 +6,7 @@ import sys
 import time
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 PY = sys.executable
 DEFENSES = {"T1g": "invisispec", "T2g": "cleanupspec", "T3g": "speclfb"}
 AMULET_DEF = {"T1g": "InvisiSpec", "T2g": "CleanupSpec", "T3g": "SpecLFB"}
@@ -67,7 +67,7 @@ def cmd_corpus(a):
     gp = work / "configs" / Path(a.gen_config).name
     gp.write_text(json.dumps(g, indent=1) + "\n")
     ws = work / "ws" / g["twostage_lp"]["corpus"]
-    run([PY, "-u", "twostage_lp.py", "--config", gp, "--ws", ws] + (["--alloy-only"] if a.alloy_only else []))
+    run([PY, "-u", "scripts/twostage_lp.py", "--config", gp, "--ws", ws] + (["--alloy-only"] if a.alloy_only else []))
     print(f"corpus: {Path(g['paths']['testset_dir']) / g['twostage_lp']['corpus']}")
 
 
@@ -222,7 +222,7 @@ def cmd_eval(a):
     for row in a.rows:
         cfg, c = render(f"runconfigs/eval/{row}.json", f"{row}_eval.json")
         model = a.model or c["paths"]["model"]
-        run([PY, "-u", "testrun.py", "--config", cfg, "--model", model, "--max-new", "2000", "--once", "--resume"],
+        run([PY, "-u", "scripts/testrun.py", "--config", cfg, "--model", model, "--max-new", "2000", "--once", "--resume"],
             extra_env={"SIMSPECT_GEM5_TIMEOUT_S": str(a.gem5_timeout)})
         camps.append({"row": row, "results_name": c["paths"]["results_name"], "model": model, "stt": row in ("E3", "E4")})
     cp = work / "eval" / "campaigns.json"
@@ -304,7 +304,7 @@ def cmd_pool(a):
 
 
 def main():
-    ap = argparse.ArgumentParser(prog="simspect.py")
+    ap = argparse.ArgumentParser(prog="scripts/simspect.py")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
     p = sub.add_parser("corpus")

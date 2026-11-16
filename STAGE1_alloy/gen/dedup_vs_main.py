@@ -3,6 +3,7 @@ from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
 sys.path.insert(0, ".")
+sys.path.insert(0, "scripts")
 import alloy_solver_order as aso
 FP = None
 

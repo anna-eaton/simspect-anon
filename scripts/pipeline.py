@@ -361,7 +361,7 @@ def _build_gem5_env(gem5_cfg: dict, spec_cfg: dict) -> dict:
     if crit:
         cpath = Path(crit)
         if not cpath.is_absolute():
-            cpath = Path(__file__).resolve().parent / cpath
+            cpath = Path(__file__).resolve().parent.parent / cpath
         if not cpath.exists():
             sys.exit(f"error: gem5.criterion {crit} not found ({cpath})")
         env["SIMSPECT_CRITERION"] = str(cpath)

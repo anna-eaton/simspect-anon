@@ -68,13 +68,14 @@ def _run_fast(idx, mode, stem, cfg, args, out: Path, testset_model: Path, pcp: P
         try:
             if str(args.code_root) not in sys.path:
                 sys.path.insert(0, str(args.code_root))
+                sys.path.insert(0, str(Path(args.code_root) / "scripts"))
             import pipeline as _pl
             key = _pl._checker_for(cfg.get("gem5", {}), _pl._read_xmit_kind(testset_model / mode / "ann", stem))
         except Exception:
             key = "_unknown"
         req = dict(op="run", tag=f"idx={idx} {mode}/{stem}", cwd=str(args.code_root), env=env,
                    log=str(wd / "pipeline.log"),
-                   argv=["pipeline.py", "gem5", "--model", args.model, "--config", str(pcp), "--force"])
+                   argv=["scripts/pipeline.py", "gem5", "--model", args.model, "--config", str(pcp), "--force"])
         msg = pool.run(key, req)
         row["exec_path"] = msg["path"]
         row["fastpath_worker"] = msg["worker"]
@@ -127,7 +128,7 @@ def run_one(idx, mode, stem, cfg, args, out: Path, testset_model: Path):
             t0 = time.monotonic()
     if fast is None:
         with open(wd / "pipeline.log", "w") as lf:
-            p = subprocess.Popen([sys.executable, "pipeline.py", "gem5", "--model", args.model,
+            p = subprocess.Popen([sys.executable, "scripts/pipeline.py", "gem5", "--model", args.model,
                                   "--config", str(pcp), "--force"], cwd=args.code_root,
                                  stdout=lf, stderr=subprocess.STDOUT, start_new_session=True, env=env)
             try:
@@ -176,10 +177,12 @@ def run_one(idx, mode, stem, cfg, args, out: Path, testset_model: Path):
                 row[k] = raw.get(k)
     if (cfg.get("sweep") or {}).get("timing_grid"):
         sys.path.insert(0, str(args.code_root))
+        sys.path.insert(0, str(Path(args.code_root) / "scripts"))
         import pipeline as _pl
         row["timing_point"] = list(_pl._timing_grid_point(stem, cfg["sweep"]))
     if (cfg.get("sweep") or {}).get("timing_mix"):
         sys.path.insert(0, str(args.code_root))
+        sys.path.insert(0, str(Path(args.code_root) / "scripts"))
         import pipeline as _pl
     if (cfg.get("sweep") or {}).get("resolved_stall_per_branch") or (cfg.get("sweep") or {}).get("timing_grid"):
         row["stall_points"] = None

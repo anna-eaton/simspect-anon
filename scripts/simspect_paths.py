@@ -1,7 +1,7 @@
 from __future__ import annotations
 from pathlib import Path
 
-ROOT = Path(__file__).parent.resolve()
+ROOT = Path(__file__).parent.parent.resolve()
 
 ALLOY_STAGE        = ROOT / "STAGE1_alloy"
 MODELS_DIR         = ALLOY_STAGE / "models"

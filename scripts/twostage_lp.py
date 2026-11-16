@@ -1,7 +1,7 @@
 import argparse, datetime as dt, json, re, shutil, subprocess, sys, time
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 LP = ROOT / "STAGE1_alloy/gen"
 PT = ROOT / "STAGE1_alloy/gen"
 

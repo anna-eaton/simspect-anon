@@ -206,6 +206,7 @@ def serve(code_root: str, log: str, key: str) -> None:
         here = str(HERE)
         sys.path[:] = [p for p in sys.path if os.path.abspath(p or ".") != here]
         sys.path.insert(0, str(code))
+        sys.path.insert(0, str(code / "scripts"))
         sys.path.insert(0, str(_STAGE3[0]))
         os.chdir(code)
         import pipeline

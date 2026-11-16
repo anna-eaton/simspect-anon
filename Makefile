@@ -26,7 +26,7 @@ PYTHONDONTWRITEBYTECODE := 1
 SIMSPECT_JAVA := $(JAVA)
 SIMSPECT_JAVAC := $(JAVAC)
 export WORK GEM5_ROOT AMULET_REPO AMULET_PY TMPDIR PYTHONDONTWRITEBYTECODE SIMSPECT_JAVA SIMSPECT_JAVAC
-SIM := $(PYTHON) simspect.py
+SIM := $(PYTHON) scripts/simspect.py
 
 .PHONY: numbers corpus-unpack timing-sample eval-recon scons-check gem5 gem5-hits gem5-eval all setup alloy amulet-fetch corpus corpus-extra corpus-stt corpus-recon hits classify rounds pool timing amulet-hits amulet-timing compare eval experiments
 

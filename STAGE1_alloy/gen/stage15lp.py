@@ -12,6 +12,7 @@ def sha(p):
 
 def run_job(code, model_file, xml_dir, seed, timeout_s, cap, walk_p, xmx):
     sys.path.insert(0, code)
+    sys.path.insert(0, str(Path(code) / "scripts"))
     import alloy_solver_order as aso
     so = {"mode": "random", "seeds": [seed], "walk_p": walk_p, "parallel": False, "timeout_s": timeout_s, "xmx": xmx,
           "keep_raw": False}
